@@ -1,9 +1,9 @@
 #Fibonacci Sequence Program
-#Program to solve fibonacci sequence, and lets user go through it for fun 
-# By: Anthony Sasso
-#Created: Feb 20, 2021
+#Program to solve fibonacci sequence, and lets user go through it for fun
+#By: Anthony Sasso
+#Created: 2021/02/20
 #Revision History
-    #finished pretty quick main issue was if == 0, == 1 and else, but == 1 'sets' F(n-1) to 1 as well as F(n-2) to 0 to solve that
+    #2021/02/20 - finished pretty quick main issue was if == 0, == 1 and else, but == 1 'sets' F(n-1) to 1 as well as F(n-2) to 0 to solve that
 
 def fibonacciGuess():
     play = True #first always initalizes
@@ -44,7 +44,7 @@ def fibonacciGuess():
                     win = True
                     fibNum1 = 1
                     fibNum2 = 0
-                    
+
                 else:
                     play = False
                     win = False
@@ -71,7 +71,7 @@ def fibonacciGuess():
         else:
             print('Oh no you are incorrect the correct answer was: {0}'.format(fibNumN))
     return
- 
+
 def fibonacciCalculator(length, start):
     for i in range(start, length+1):
         if 0 > i:   #cannot be below 0...
@@ -97,12 +97,12 @@ def fibonacci(): #'main' for this algorithm called by menu module
     print('inside fibonacci sequence\n')
     print('Enter \'Guess\' to guess the sequence, and \'Show\' to calculate the sequence, and \'Halt\' to exit\n')
     choice = input('')
-
-    if ('Guess' == choice or 'guess' == choice):
+    
+    if (('Guess' or 'guess') == choice):
         fibonacciGuess()
-    elif ('Show' == choice or 'show' == choice):
+    elif (('Show' or 'show') == choice):
         length = int(input('enter the sequence length: '))
         start = 0
         fibonacciCalculator(length,start)
-    elif ('Halt' == choice or 'halt' == choice):
+    elif (('Halt' or 'halt') == choice):
         return
