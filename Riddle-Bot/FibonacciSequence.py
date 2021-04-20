@@ -95,7 +95,7 @@ def fibonacciCalculator(length, start):
 
 def fibonacci(): #'main' for this algorithm called by menu module
     print('inside fibonacci sequence\n')
-    print('Enter \'Guess\' to guess the sequence, and \'Show\' to calculate the sequence, and \'Halt\' to exit\n')
+    print('Enter \'Guess\' to guess the sequence, \'Show\' to calculate the sequence, and \'Halt\' to exit\n')
     choice = input('')
     
     if (('Guess' or 'guess') == choice):
