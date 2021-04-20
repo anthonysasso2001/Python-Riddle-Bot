@@ -2,10 +2,8 @@
 #Program to solve fibonacci sequence, and lets user go through it for fun
 #By: Anthony Sasso
 #Created: 2021/02/20
-#Revision History
-    #2021/02/20 - finished pretty quick main issue was if == 0, == 1 and else, but == 1 'sets' F(n-1) to 1 as well as F(n-2) to 0 to solve that
 
-def fibonacciGuess():
+def fibonacci_guess():
     play = True #first always initalizes
     inputNum = 0
     loopNum = 0
@@ -72,7 +70,7 @@ def fibonacciGuess():
             print('Oh no you are incorrect the correct answer was: {0}'.format(fibNumN))
     return
 
-def fibonacciCalculator(length, start):
+def fibonacci_calculator(length, start):
     for i in range(start, length+1):
         if 0 > i:   #cannot be below 0...
             print('ERROR: start below 0')
@@ -93,16 +91,16 @@ def fibonacciCalculator(length, start):
     print('\n')
     return
 
-def fibonacci(): #'main' for this algorithm called by menu module
+def run_fibonacci(): #'main' for this algorithm called by menu module
     print('inside fibonacci sequence\n')
     print('Enter \'Guess\' to guess the sequence, \'Show\' to calculate the sequence, and \'Halt\' to exit\n')
     choice = input('')
     
     if (('Guess' or 'guess') == choice):
-        fibonacciGuess()
+        fibonacci_guess()
     elif (('Show' or 'show') == choice):
         length = int(input('enter the sequence length: '))
         start = 0
-        fibonacciCalculator(length,start)
+        fibonacci_calculator(length,start)
     elif (('Halt' or 'halt') == choice):
         return

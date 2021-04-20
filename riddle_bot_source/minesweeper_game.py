@@ -2,12 +2,10 @@
 #Program to run a simple minesweeper game
 #By: Anthony Sasso
 #Created: 2021/04/14
-#Revision History
-    #2021/04/14 - Started Code based off C project I did in class don't think it will transfer though so may not choose t do it
-import dataclasses
-#from array import *
-import Random
 
+#from array import *
+import random
+from userinfo import User
 #macros for game scores / options
 EASYSIZE = 9    #got difficulties from wikipedia...
 EASYMINE = 10
@@ -22,24 +20,21 @@ MAXINPUT = 30
 MINE = -2
 UNINIT = -1
 
-@dataclasses
-class User:
-    name: str
-    password: str
-    fibonacciScore: int = 0
-    minesweeperScore: int = 0
-class MBoard:
+class _minesweeper_board:
     rows: int
     columns: int
 
     numOfMines: int
     currentMines: int = 0
 
-    currentBoard = []
-    filledBoard = []
+    currentBoard = [[]]
+    filledBoard = [[]]
 
-def initalizeBoard(inputWidth,inputHeight,inputMineNum):
-    outputBoard = MBoard(inputWidth,inputHeight,inputMineNum)
+def initalize_board(inputWidth:int,inputHeight:int,inputMineNum:int):
+    outputBoard:_minesweeper_board = _minesweeper_board()
+    outputBoard.rows = inputWidth
+    outputBoard.columns = inputHeight
+    outputBoard.numOfMines = inputMineNum
 
     for row in range (outputBoard.rows + 2):  #+2 is for buffer around board
         for col in range(outputBoard.columns + 2):
@@ -51,9 +46,9 @@ def initalizeBoard(inputWidth,inputHeight,inputMineNum):
     mineRow:int = 0
     mineColumn:int = 0
     while (outputBoard.currentMines < outputBoard.numOfMines):
-        mineRow = Random.randrange(1,outputBoard.rows)
-        mineColumn = Random.randrange(1,outputBoard.columns)
-        if (MINE != (outputBoard.filledBoard[mineRow][mineColumn] and mineRow != 0 and mineColumn != 0)):
+        mineRow = random.randrange(1,(outputBoard.rows))
+        mineColumn = random.randrange(1,(outputBoard.columns))
+        if (MINE != int(outputBoard.filledBoard[mineRow][mineColumn]) and mineRow != 0 and mineColumn != 0):
             outputBoard.filledBoard[mineRow][mineColumn] = MINE
             outputBoard.currentMines += int(1)
 
@@ -97,31 +92,31 @@ def initalizeBoard(inputWidth,inputHeight,inputMineNum):
 
     return outputBoard
 
-def printCurrentBoard(printBoard:MBoard):
+def print_current_board(printBoard:_minesweeper_board):
     
     for i in range(0,printBoard.columns):
         if (0 == i):
             print("[-]\t")
         else:
-            print("[{}]\t",i)
+            print("[{0}]\t".format(i))
     print("\n\n")
     for row in range(1,printBoard.rows):
         for column in range (1, printBoard.columns):
             if (UNINIT == printBoard.currentBoard[row][column]):
                 print("[?]\t")
             else:
-                print("[{}]\t",printBoard.currentBoard[row][column])
+                print("[{0}]\t".format(printBoard.currentBoard[row][column]))
         print("\n\n")
     print("\n\n")
     return
 
-def printFinalBoard(printBoard:MBoard):
+def print_final_board(printBoard:_minesweeper_board):
     
     for i in range(0,printBoard.columns):
         if (0 == i):
             print("[-]\t")
         else:
-            print("[{}]\t",i)
+            print("[{0}]\t".format(i))
     print("\n\n")
     for row in range(1,printBoard.rows):
         for column in range (1, printBoard.columns):
@@ -132,26 +127,26 @@ def printFinalBoard(printBoard:MBoard):
             # elif(0 == printBoard.currentBoard[row][column]):
             #     print("[0]\t")
             else:
-                print("[{}]\t",printBoard.currentBoard[row][column])
+                print("[{0}]\t".format(printBoard.currentBoard[row][column]))
         print("\n\n")
     print("\n\n")
     return
 
-def checkInput(inputBoard:MBoard,inputRow,inputColumn):
+def check_input(inputBoard:_minesweeper_board, inputRow, inputColumn):
     if (MINE == inputBoard.filledBoard[inputRow][inputColumn]):
         return 1
     elif (UNINIT == inputBoard.filledBoard[inputRow][inputColumn]):
         return 2
     else:
         return 0
-def checkWin(inputBoard):
+def check_win(inputBoard:_minesweeper_board):
     for row in range(1,inputBoard.rows):
         for col in range(1, inputBoard.columns):
             if((inputBoard.currentBoard[row][col] != inputBoard.filledBoard[row][col]) and (MINE != inputBoard.filledBoard[row][col])):
                 return False
     return True
 
-def updateBoard(gameBoard):
+def update_board(gameBoard:_minesweeper_board):
     inputRow:int = 0
     inputColumn:int = 0
     print("Please enter a coordinate\n")
@@ -161,13 +156,13 @@ def updateBoard(gameBoard):
     inputColumn = input('')
     if (-1 == inputRow or -1 == inputColumn):
         return 3
-    checkValue = checkInput(gameBoard,inputRow,inputColumn)
+    checkValue = check_input(gameBoard,inputRow,inputColumn)
     if (0 > inputRow or inputRow > gameBoard.rows or 0 > inputColumn or inputColumn > gameBoard.columns):
         print("oops, that coordinate is off the board!\n")
         return 0 #not worth ending, just go back to select
     if (0 == checkValue):
         gameBoard.currentBoard[inputRow][inputColumn] = gameBoard.filledBoard[inputRow][inputColumn]
-        win:bool = checkWin(gameBoard)
+        win:bool = check_win(gameBoard)
         if (True == win):
             return 2
         else:
@@ -176,7 +171,7 @@ def updateBoard(gameBoard):
         return 1#hit a mine!!!
     elif (2 == checkValue):
         print("spot already selected...\n")
-        win:bool == checkWin(gameBoard)
+        win:bool == check_win(gameBoard)
         if (True == win):
             return 2
         else:
@@ -186,21 +181,21 @@ def updateBoard(gameBoard):
         exit(2)
     return
 
-def playerLose(gameBoard):
+def player_lose(gameBoard:_minesweeper_board):
     print("Oh no you lost!\n")
     print("The board you had was:\n\n")
-    printCurrentBoard(gameBoard)
+    print_current_board(gameBoard)
     print("The full board was:\n\n")
-    printFinalBoard(gameBoard)
+    print_final_board(gameBoard)
     return
 
-def playerWin(inputUser,newScore):
+def player_win(inputUser:User,newScore:int):
     print("Congratulations, you win!\n")
     if (inputUser.minesweeperScore < newScore):
         inputUser.minesweeperScore = newScore
-        print("You beat your high score, your new high score is {}",newScore)
+        print("You beat your high score, your new high score is {0}".format(newScore))
 
-def minesweeperStart(inputUser):
+def minesweeper_start(inputUser:User):
     print("Enter one of the following options (case sensitive)\n")
     print("EASY - Width 09, Height 09, 10 mines\n")
     print("MEDIUM - Width 16, Height 16, 40 mines\n")
@@ -253,21 +248,21 @@ def minesweeperStart(inputUser):
         else:
             print("Unknown input, try again...\n")
     #difficulty select over, now to init
-    gameBoard:MBoard = initalizeBoard(inputWidth,inputHeight,inputMineNum)
+    gameBoard:_minesweeper_board = initalize_board(inputWidth,inputHeight,inputMineNum)
     continueGame = int(0)
     while(0 == continueGame):
-        printCurrentBoard(gameBoard)
-        continueGame = updateBoard(gameBoard)
+        print_current_board(gameBoard)
+        continueGame = update_board(gameBoard)
 
     if (1 == continueGame):
-        playerLose(gameBoard)
+        player_lose(gameBoard)
     elif (2 == continueGame):
         score = int(gameBoard.numOfMines * (gameBoard.rows * gameBoard.columns))
-        playerWin(inputUser,score)
+        player_win(inputUser,score)
 
     return
 
-def minesweeperRules():
+def minesweeper_rules():
     print("The rules are:\n\n")
     print("1. The number on a spot tells you the amount of mines surrounding it from 1-8\n")
     print("2. The game ends if you select a spot with a mine\n")
@@ -275,19 +270,19 @@ def minesweeperRules():
     print("Note* This game does not have a time limit so take your time and think it over\n\n")
     return
 
-def minesweeper():
+def run_minesweeper():
     inputUser = User('testName','testPassword',10,10)#just for testing until main passes user into it...
     loop = True
     while(True == loop):
         print("welcome to minesweeper\n")
-        print("Current highscore = {}",inputUser)
+        print("Current highscore = {0}".format(inputUser.minesweeperScore))
         print("Enter \'Start\' to guess the sequence, \'Rules\' to view the rules, and \'Halt\' to exit\n")
         choice = input('')
 
         if (('Start' or 'start') == choice):
-            minesweeperStart(inputUser)
+            minesweeper_start(inputUser)
         elif (('Rules' or 'rules') == choice):
-            minesweeperRules()
+            minesweeper_rules()
         elif (('Halt' or 'halt') == choice):
             loop = False
         else:

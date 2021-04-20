@@ -2,14 +2,11 @@
 #Program to solve multiple types of riddles, acts like a menu to imported algorithms
 #By: Anthony Sasso
 #Created: 2021/02/20
-#Revision History
-    #2021/02/20 - finished menu outline, fibonacci, made placeholder for future import-links
 
-import sys
-import FibonacciSequence
-import Minesweeper
-
+from fibonacci_sequence import run_fibonacci
+from minesweeper_game import run_minesweeper
 def main(): #main function
+    
     loop = True
     userInput = ''
     while (loop):
@@ -22,11 +19,11 @@ def main(): #main function
         
         if (('1' or 'fibonacci sequence') == userInput):  #fibonacci sequence initalizer
             print("picked fibonacci sequence!\n")   #test to see if it enters
-            FibonacciSequence.fibonacci()
-
+            run_fibonacci()
+            
         elif (('2' or 'minesweeper') == userInput):    #minesweeper initalizer
             print("picked minesweeper game!\n") #test to see if it enters
-            Minesweeper.minesweeper()
+            run_minesweeper()
 
         elif (('3' or 'placeholder') == userInput):    #placeholder initalizer
             print("picked placeholder sequence!\n") #test to see if it enters
