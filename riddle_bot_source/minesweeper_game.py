@@ -29,6 +29,46 @@ class _minesweeper_board:
 
     currentBoard = [[]]
     filledBoard = [[]]
+    
+    def print_current_board(self):
+        for i in range(0, self.columns+1):
+            if (0 == i):
+                print('[-]\t',end='')
+            else:
+                print('[{0}]\t'.format(i),end='')
+        print("\n\n")
+        for row in range(1, self.rows+1):
+            print("[{0}]\t".format(row),end='')
+            for column in range (1, self.columns+1):
+                if (UNINIT == self.currentBoard[row][column]):
+                    print('[?]\t',end='')
+                else:
+                    print('[{0}]\t'.format(self.currentBoard[row][column]),end='')
+            print("\n\n")
+        print("\n\n")
+        return
+
+    def print_final_board(self):
+        for i in range(0,self.columns+1):
+            if (0 == i):
+                print('[-]\t',end='')
+            else:
+                print('[{0}]\t'.format(i),end='')
+        print("\n\n")
+        for row in range(1,self.rows+1):
+            print("[{0}]\t".format(row),end='')
+            for column in range (1, self.columns+1):
+                if (MINE == self.currentBoard[row][column]):
+                    print('[M]\t',end='')
+                elif (UNINIT == self.currentBoard[row][column]):
+                    print('[?]\t',end='')
+                # elif(0 == printBoard.currentBoard[row][column]):
+                #     print("[0]\t")
+                else:
+                    print('[{0}]\t'.format(self.currentBoard[row][column]),end='')
+            print("\n\n")
+        print("\n\n")
+        return
 
 def initalize_board(inputWidth:int,inputHeight:int,inputMineNum:int):
     outputBoard:_minesweeper_board = _minesweeper_board()
@@ -36,10 +76,12 @@ def initalize_board(inputWidth:int,inputHeight:int,inputMineNum:int):
     outputBoard.columns = inputHeight
     outputBoard.numOfMines = inputMineNum
 
-    for row in range (outputBoard.rows + 2):  #+2 is for buffer around board
+    for row in range (0,(outputBoard.rows + 2)):  #+2 is for buffer around board
+        outputBoard.currentBoard.append([])
+        outputBoard.filledBoard.append([])
         for col in range(outputBoard.columns + 2):
-            outputBoard.currentBoard.append(UNINIT)
-            outputBoard.filledBoard.append(UNINIT)
+            outputBoard.currentBoard[row].append(UNINIT)
+            outputBoard.filledBoard[row].append(UNINIT)
     # print (outputBoard.currentBoard)
     # print("\n")
     # print (outputBoard.filledBoard)
@@ -62,7 +104,7 @@ def initalize_board(inputWidth:int,inputHeight:int,inputMineNum:int):
 
     #calculates the amount of mines surrounding the position using virtualization above
     for row in range(1, outputBoard.rows):
-        for column in range(1, outputBoard):
+        for column in range(1, outputBoard.columns):
             if (MINE != outputBoard.filledBoard[row][column]):
                 outputBoard.filledBoard[row][column] = 0
 
@@ -92,57 +134,57 @@ def initalize_board(inputWidth:int,inputHeight:int,inputMineNum:int):
 
     return outputBoard
 
-def print_current_board(printBoard:_minesweeper_board):
+# def print_current_board(printBoard:_minesweeper_board):
     
-    for i in range(0,printBoard.columns):
-        if (0 == i):
-            print("[-]\t")
-        else:
-            print("[{0}]\t".format(i))
-    print("\n\n")
-    for row in range(1,printBoard.rows):
-        for column in range (1, printBoard.columns):
-            if (UNINIT == printBoard.currentBoard[row][column]):
-                print("[?]\t")
-            else:
-                print("[{0}]\t".format(printBoard.currentBoard[row][column]))
-        print("\n\n")
-    print("\n\n")
-    return
+#     for i in range(0,printBoard.columns+1):
+#         if (0 == i):
+#             print('[-]\t')
+#         else:
+#             print('[{0}]\t'.format(i))
+#     print("\n\n")
+#     for row in range(1,printBoard.rows+1):
+#         for column in range (1, printBoard.columns+1):
+#             if (UNINIT == printBoard.currentBoard[row][column]):
+#                 print('[?]\t')
+#             else:
+#                 print('[{0}]\t'.format(printBoard.currentBoard[row][column]))
+#         print("\n\n")
+#     print("\n\n")
+#     return
 
-def print_final_board(printBoard:_minesweeper_board):
+# def print_final_board(printBoard:_minesweeper_board):
     
-    for i in range(0,printBoard.columns):
-        if (0 == i):
-            print("[-]\t")
-        else:
-            print("[{0}]\t".format(i))
-    print("\n\n")
-    for row in range(1,printBoard.rows):
-        for column in range (1, printBoard.columns):
-            if (MINE == printBoard.currentBoard[row][column]):
-                print("[M]\t")
-            elif (UNINIT == printBoard.currentBoard[row][column]):
-                print("[?]\t")
-            # elif(0 == printBoard.currentBoard[row][column]):
-            #     print("[0]\t")
-            else:
-                print("[{0}]\t".format(printBoard.currentBoard[row][column]))
-        print("\n\n")
-    print("\n\n")
-    return
+#     for i in range(0,printBoard.columns+1):
+#         if (0 == i):
+#             print('[-]\t')
+#         else:
+#             print('[{0}]\t'.format(i))
+#     print("\n\n")
+#     for row in range(1,printBoard.rows+1):
+#         for column in range (1, printBoard.columns+1):
+#             if (MINE == printBoard.currentBoard[row][column]):
+#                 print('[M]\t')
+#             elif (UNINIT == printBoard.currentBoard[row][column]):
+#                 print('[?]\t')
+#             # elif(0 == printBoard.currentBoard[row][column]):
+#             #     print("[0]\t")
+#             else:
+#                 print('[{0}]\t'.format(printBoard.currentBoard[row][column]))
+#         print("\n\n")
+#     print("\n\n")
+#     return
 
-def check_input(inputBoard:_minesweeper_board, inputRow, inputColumn):
-    if (MINE == inputBoard.filledBoard[inputRow][inputColumn]):
+def check_input(inputBoard:_minesweeper_board, inputRow:int, inputColumn:int):
+    if (MINE == int(inputBoard.filledBoard[inputRow][inputColumn])):
         return 1
-    elif (UNINIT == inputBoard.filledBoard[inputRow][inputColumn]):
+    elif (UNINIT == int(inputBoard.filledBoard[inputRow][inputColumn])):
         return 2
     else:
         return 0
 def check_win(inputBoard:_minesweeper_board):
     for row in range(1,inputBoard.rows):
         for col in range(1, inputBoard.columns):
-            if((inputBoard.currentBoard[row][col] != inputBoard.filledBoard[row][col]) and (MINE != inputBoard.filledBoard[row][col])):
+            if(((inputBoard.currentBoard[row][col]) != (inputBoard.filledBoard[row][col])) and (MINE != (inputBoard.filledBoard[row][col]))):
                 return False
     return True
 
@@ -154,7 +196,7 @@ def update_board(gameBoard:_minesweeper_board):
     inputRow = input('')
     print("COLUMN #: ")
     inputColumn = input('')
-    if (-1 == inputRow or -1 == inputColumn):
+    if ('-1' == inputRow or '-1' == inputColumn):
         return 3
     checkValue = check_input(gameBoard,inputRow,inputColumn)
     if (0 > inputRow or inputRow > gameBoard.rows or 0 > inputColumn or inputColumn > gameBoard.columns):
@@ -184,9 +226,9 @@ def update_board(gameBoard:_minesweeper_board):
 def player_lose(gameBoard:_minesweeper_board):
     print("Oh no you lost!\n")
     print("The board you had was:\n\n")
-    print_current_board(gameBoard)
+    gameBoard.print_current_board()
     print("The full board was:\n\n")
-    print_final_board(gameBoard)
+    gameBoard.print_final_board()
     return
 
 def player_win(inputUser:User,newScore:int):
@@ -233,13 +275,13 @@ def minesweeper_start(inputUser:User):
         elif('CUSTOM' == difficultyChoice):
             print("Custom chosen")
             print("Input width (max of 30):")
-            inputWidth = input('')
+            inputWidth = int(input())
 
             print("Input height (max of 60):")
-            inputHeight = input('')
+            inputHeight = int(input())
 
             print("Input number of mines (max of 1000 or width * height):")
-            inputMineNum = input('')
+            inputMineNum = int(input())
             if ((0 < inputWidth <= 30) and (0 < inputHeight <= 60) and (0 < inputMineNum <= 1000) and (inputMineNum < (inputWidth * inputHeight))):
                 loop = False
             else:
@@ -251,7 +293,7 @@ def minesweeper_start(inputUser:User):
     gameBoard:_minesweeper_board = initalize_board(inputWidth,inputHeight,inputMineNum)
     continueGame = int(0)
     while(0 == continueGame):
-        print_current_board(gameBoard)
+        gameBoard.print_current_board()
         continueGame = update_board(gameBoard)
 
     if (1 == continueGame):
@@ -259,6 +301,9 @@ def minesweeper_start(inputUser:User):
     elif (2 == continueGame):
         score = int(gameBoard.numOfMines * (gameBoard.rows * gameBoard.columns))
         player_win(inputUser,score)
+    elif (3 == continueGame):
+        print("Game Ended, final board was:\n\n")
+        gameBoard.print_final_board()
 
     return
 
