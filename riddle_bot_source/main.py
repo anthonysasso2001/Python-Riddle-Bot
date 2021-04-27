@@ -6,7 +6,9 @@
 from fibonacci_sequence import run_fibonacci
 from minesweeper_game import run_minesweeper
 def main(): #main function
-    
+    #load info
+
+    #game menu / loop
     loop = True
     userInput = ''
     while (loop):
@@ -19,10 +21,12 @@ def main(): #main function
         
         if (('1' or 'fibonacci sequence') == userInput):  #fibonacci sequence initalizer
             print("picked fibonacci sequence!\n")   #test to see if it enters
+            #current_user = run_fibonacci()
             run_fibonacci()
             
         elif (('2' or 'minesweeper') == userInput):    #minesweeper initalizer
             print("picked minesweeper game!\n") #test to see if it enters
+            #current_user = run_minesweeper()
             run_minesweeper()
 
         elif (('3' or 'placeholder') == userInput):    #placeholder initalizer
@@ -33,6 +37,8 @@ def main(): #main function
 
         else:
             print("wrong input please try again\n")
+    #save info
+    
     return
 
 main()
