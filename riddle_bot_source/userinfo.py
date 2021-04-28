@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import pickle
 
 @dataclass
 class User:
@@ -7,3 +8,11 @@ class User:
     password: str = "-1"
     fibonacciScore: int = 0
     minesweeperScore: int = 0
+
+def save_user_data(file_name,users):
+    #
+    return
+
+def load_user_data(file_name):
+    
+    return
