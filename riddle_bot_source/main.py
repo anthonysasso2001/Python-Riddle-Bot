@@ -2,15 +2,18 @@
 #Program to solve multiple types of riddles, acts like a menu to imported algorithms
 #By: Anthony Sasso
 #Created: 2021/02/20
-FILENAME = "saveState.txt"
+FILENAME = "saveState.pickle"
 from fibonacci_sequence import run_fibonacci
 from minesweeper_game import run_minesweeper
-from userinfo import User,save_user_data,load_user_data
+from userinfo import User
 
 def main(): #main function
     #load info
-    users = load_user_data(FILENAME)
-
+    usersList = []
+    newUser = True
+    while newUser != []:
+        newUser:User
+        usersList.append(newUser.load_user_data(FILENAME))
 
     #game menu / loop
     # loop = True
@@ -42,11 +45,10 @@ def main(): #main function
     #     else:
     #         print("wrong input please try again\n")
     #save info
-    inputUserOne = User('testName','testPassword',10,10)
-    inputUserTwo = User('testTwoName','secondPassword',20,20)
-    inputUserThree = User('testThreeName','secondPassword',30,30)
-    users:User = [inputUserOne,inputUserTwo,inputUserThree]
-    save_user_data(FILENAME,users)
+    usersList.append(inputUserOne = User('testName','testPassword',10,10))
+    usersList.append(inputUserTwo = User('testTwoName','secondPassword',20,20))
+    usersList.append(inputUserThree = User('testThreeName','secondPassword',30,30))
+    
     return
 
 main()
