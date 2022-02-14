@@ -96,17 +96,17 @@ class _minesweeper_board:
     def print_current_board(self):
         for i in range(0, self.columns+1):
             if (0 == i):
-                print('[-]\t',end='')
+                print("[-]\t",end="")
             else:
-                print('[{0}]\t'.format(i),end='')
+                print("[{0}]\t".format(i),end="")
         print("\n\n")
         for row in range(1, self.rows+1):
-            print("[{0}]\t".format(row),end='')
+            print("[{0}]\t".format(row),end="")
             for column in range (1, self.columns+1):
                 if (UNINIT == self.currentBoard[row][column]):
-                    print('[?]\t',end='')
+                    print("[?]\t",end="")
                 else:
-                    print('[{0}]\t'.format(self.currentBoard[row][column]),end='')
+                    print("[{0}]\t".format(self.currentBoard[row][column]),end="")
             print("\n\n")
         print("\n\n")
         return
@@ -114,21 +114,21 @@ class _minesweeper_board:
     def print_final_board(self):
         for i in range(0,self.columns+1):
             if (0 == i):
-                print('[-]\t',end='')
+                print("[-]\t",end="")
             else:
-                print('[{0}]\t'.format(i),end='')
+                print("[{0}]\t".format(i),end="")
         print("\n\n")
         for row in range(1,self.rows+1):
-            print("[{0}]\t".format(row),end='')
+            print("[{0}]\t".format(row),end="")
             for column in range (1, self.columns+1):
                 if (MINE == self.filledBoard[row][column]):
-                    print('[M]\t',end='')
+                    print("[M]\t",end="")
                 elif (UNINIT == self.filledBoard[row][column]):
-                    print('[?]\t',end='')
+                    print("[?]\t",end="")
                 # elif(0 == printBoard.currentBoard[row][column]):
                 #     print("[0]\t")
                 else:
-                    print('[{0}]\t'.format(self.filledBoard[row][column]),end='')
+                    print("[{0}]\t".format(self.filledBoard[row][column]),end="")
             print("\n\n")
         print("\n\n")
         return
@@ -138,9 +138,9 @@ class _minesweeper_board:
         # inputColumn:int = 0
         # print("Please enter a coordinate\n")
         # print("ROW #: ")
-        # inputRow = input('')
+        # inputRow = input("")
         # print("COLUMN #: ")
-        # inputColumn = input('')
+        # inputColumn = input("")
         
         if ((-1 == inputRow) or (-1 == inputColumn)):
             return 3
@@ -212,29 +212,29 @@ def minesweeper_start(inputUser:User):
     
     while (True == loop):
         print("\nNew Game selected, choose a difficulty:")
-        difficultyChoice = input('')
-        if ('EASY' == difficultyChoice):
+        difficultyChoice = input("")
+        if ("EASY" == difficultyChoice):
             print("Easy chosen\n")
             inputWidth = EASYSIZE
             inputHeight = EASYSIZE
             inputMineNum = EASYMINE
             loop = False
 
-        elif('MEDIUM' == difficultyChoice):
+        elif("MEDIUM" == difficultyChoice):
             print("Medium chosen")
             inputWidth = MEDSIZE
             inputHeight = MEDSIZE
             inputMineNum = MEDMINE
             loop = False
 
-        elif('HARD' == difficultyChoice):
+        elif("HARD" == difficultyChoice):
             print("Hard chosen")
             inputWidth = HARDSIZE
             inputHeight = HARDSIZE
             inputMineNum = HARDMINE
             loop = False
 
-        elif('CUSTOM' == difficultyChoice):
+        elif("CUSTOM" == difficultyChoice):
             print("Custom chosen")
             print("Input width (max of 30):")
             inputWidth = int(input())
@@ -260,9 +260,9 @@ def minesweeper_start(inputUser:User):
         guessColumn = 0
         print("Please enter a coordinate\n")
         print("ROW #: ")
-        guessRow = int(input(''))
+        guessRow = int(input(""))
         print("COLUMN #: ")
-        guessColumn = int(input(''))
+        guessColumn = int(input(""))
         continueGame = gameBoard.update_board(guessRow,guessColumn)
 
     if (1 == continueGame):
@@ -284,22 +284,27 @@ def minesweeper_rules():
     print("Note* This game does not have a time limit so take your time and think it over\n\n")
     return
 
-def run_minesweeper():
-    inputUser = User('testName','testPassword',10,10)#just for testing until main passes user into it...
-    loop = True
-    while(True == loop):
+def run_minesweeper(player:User):
+    gameLoop = True
+    while(True == gameLoop):
         print("welcome to minesweeper\n")
-        print("Current highscore = {0}".format(inputUser.minesweeperScore))
-        print("Enter \'Start\' to guess the sequence, \'Rules\' to view the rules, and \'Halt\' to exit\n")
-        choice = input('')
+        print("Current highscore = {0}".format(player.minesweeperScore))
+        print("Enter \"Start\" to start playing, \"Rules\" to view the rules, and \"Exit\" to exit\n")
+        choice = input("")
+        gameStart = {"Start","start"}
+        gameRules = {"Rules","rules"}
+        gameExit = {"Exit", "exit"}
 
-        if (('Start' or 'start') == choice):
-            minesweeper_start(inputUser)
-        elif (('Rules' or 'rules') == choice):
+        if choice in gameStart:
+            minesweeper_start(player)
+
+        elif choice in gameRules:
             minesweeper_rules()
-        elif (('Halt' or 'halt') == choice):
-            loop = False
-            return inputUser
+
+        elif choice in gameExit:
+            gameLoop = False
+            return player
+
         else:
-            print("unkown input, try again...\n")
+            print("Unknown input, please try again...\n")
     return
